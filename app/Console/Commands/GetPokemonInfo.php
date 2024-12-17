@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
 use App\Models\Pokemons;
 use App\Services\ApiService;
-
 class GetPokemonInfo extends Command
 {
     /**
@@ -14,14 +12,12 @@ class GetPokemonInfo extends Command
      * @var string
      */
     protected $signature = 'command:getpokemoninfo {poke_id? : ポケモンID}';
-
     /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Command description';
-
     /**
      * Create a new command instance.
      *
@@ -31,7 +27,6 @@ class GetPokemonInfo extends Command
     {
         parent::__construct();
     }
-
     /**
      * Execute the console command.
      */
@@ -43,8 +38,20 @@ class GetPokemonInfo extends Command
 
         // 引数でポケモンのIDが指定されているかどうかで処理を分岐
         if (!empty($poke_id)) {
+             $p_id = Pokemons::where('p_id', $poke_id)->first();
+             if (! empty($p_id)) {
+                    // 次の処理移動
+                    return;
+                }
+                $result = $apiService->fetchData($poke_id);
+                $p_info = $this->getPokemonInfo($result);
+                print_r($p_info['id']);
+                print_r($p_info['jp_name']."\n");
+                print_r($p_info['en_name']."\n");
+                print_r("\n");
+                $p_info = $Pokemons->createPokemon($p_info);
 }else{
-    $pokeid_min = 1;
+            $pokeid_min = 1;
             $pokeid_max = 898;
             for ($i = $pokeid_min; $i <= $pokeid_max; $i++) {
                 $p_id = Pokemons::where('p_id', $i)->first();
