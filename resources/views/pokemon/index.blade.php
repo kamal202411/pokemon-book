@@ -22,6 +22,7 @@
         <div class="bg-black rounded-lg p-4 w-full max-w-screen-md mx-auto relative">
             <img src="{{ asset('storage/close-icon.svg') }}" id="closeModal"
                 class="absolute top-2 right-2 w-6 h-6 cursor-pointer">
+
             <div id="modalContent"></div>
         </div>
     </div>
